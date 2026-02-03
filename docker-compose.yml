@@ -1,0 +1,19 @@
+services:
+  unhinged_lander:
+    build: .
+    volumes:
+      - .:/unhinged_lander
+    ports:
+      - "8001:8000"  # Expose to host/Nginx (unique port for this project)
+    environment:
+      - PG_HOST=${PG_HOST}  # Loaded from .env; will be 'kdio_shared'
+      - PG_PORT=${PG_PORT}
+      - PG_USER=${PG_USER}
+      - PG_PASS=${PG_PASS}
+      - PG_DATABASE=${PG_DATABASE}
+    networks:
+      - kdio_network  # Join shared network for DB access
+
+networks:
+  kdio_network:
+    external: true  # Reference existing network from shared compose
