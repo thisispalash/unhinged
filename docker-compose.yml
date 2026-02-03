@@ -13,7 +13,9 @@ services:
       - PG_PASS=${PG_PASS}
       - PG_DATABASE=${PG_DATABASE}
     networks:
-      - kdio_network  # Join shared network for DB access
+      kdio_network:
+        aliases:
+          - unhinged_lander
 
 networks:
   kdio_network:
