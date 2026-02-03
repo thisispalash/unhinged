@@ -3,6 +3,7 @@ services:
     build: .
     volumes:
       - .:/unhinged_lander
+      - static_volume:/unhinged_lander/staticfiles
     ports:
       - "8001:8000"  # Expose to host/Nginx (unique port for this project)
     environment:
@@ -17,3 +18,7 @@ services:
 networks:
   kdio_network:
     external: true  # Reference existing network from shared compose
+
+volumes:
+  static_volume:
+    name: unhinged_lander_static

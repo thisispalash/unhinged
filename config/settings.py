@@ -30,7 +30,15 @@ SECRET_KEY = 'django-insecure-44z4sv_g38&0phx4c-g$gbx$+*=m-%5upt*c27(9746+v*s0sk
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'unhinged-lander.localhost', # remapped for nginx
+    # backup local
+    'localhost',
+    '127.0.0.1',
+    # production
+    'nhinged.io',
+    'www.nhinged.io',
+]
 
 
 # Application definition
@@ -120,3 +128,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
