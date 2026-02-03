@@ -1,6 +1,7 @@
 services:
   unhinged_lander:
     build: .
+    # command: make start # uncomment for local dev
     volumes:
       - .:/unhinged_lander
       - static_volume:/unhinged_lander/staticfiles

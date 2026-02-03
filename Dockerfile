@@ -3,7 +3,7 @@ FROM python:3.13-slim
 WORKDIR /unhinged_lander
 
 # Install Poetry
-RUN apt-get update && apt-get install -y curl && \
+RUN apt-get update && apt-get install -y curl make && \
   curl -sSL https://install.python-poetry.org | python3 - && \
   apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -18,4 +18,4 @@ RUN poetry update
 # Copy the rest of the project
 COPY . /unhinged_lander
 
-CMD ["poetry", "run", "gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:unhinged_lander"]
+CMD ["make", "gunicorn"]
