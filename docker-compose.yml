@@ -1,26 +1,63 @@
+# Unhinged lander app
+#
+# Profiles:
+#   dev  :: bind mount + dev server + tailwind watch + host port 8001
+#   prod :: baked image + gunicorn, no host port (accessed through nginx)
+#
+# Usage:
+#   COMPOSE_PROFILES=dev docker compose up -d
+#   COMPOSE_PROFILES=prod docker compose up -d
+
 services:
+
+  # ---------------- dev ----------------------------------------------------- #
   unhinged_lander:
-    build: .
-    # command: make start # uncomment for local dev
-    volumes:
-      - .:/unhinged_lander
-      - static_volume:/unhinged_lander/staticfiles
-    ports:
-      - "8001:8000"  # Expose to host/Nginx (unique port for this project)
+    container_name: unhinged_lander_dev
+    extends:
+      file: unhinged-base.yml
+      service: unhinged-base
+    command: make dev
     environment:
-      - PG_HOST=${PG_HOST}  # Loaded from .env; will be 'kdio_shared'
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=true
+      - PG_HOST=${PG_HOST}
       - PG_PORT=${PG_PORT}
       - PG_USER=${PG_USER}
       - PG_PASS=${PG_PASS}
       - PG_DATABASE=${PG_DATABASE}
-    networks:
-      kdio_network:
-        aliases:
-          - unhinged_lander
+      - GOATCOUNTER_URL=${GOATCOUNTER_URL:-}
+    volumes:
+      - .:/unhinged_lander
+      - static_volume:/unhinged_lander/staticfiles
+    ports:
+      - "8001:8000"
+    profiles:
+      - dev
+
+  # ---------------- prod ---------------------------------------------------- #
+  unhinged_lander_prod:
+    container_name: unhinged_lander
+    extends:
+      file: unhinged-base.yml
+      service: unhinged-base
+    command: make prod
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - DEBUG=false
+      - PG_HOST=${PG_HOST}
+      - PG_PORT=${PG_PORT}
+      - PG_USER=${PG_USER}
+      - PG_PASS=${PG_PASS}
+      - PG_DATABASE=${PG_DATABASE}
+      - GOATCOUNTER_URL=${GOATCOUNTER_URL:-}
+    volumes:
+      - static_volume:/unhinged_lander/staticfiles
+    profiles:
+      - prod
 
 networks:
   kdio_network:
-    external: true  # Reference existing network from shared compose
+    external: true
 
 volumes:
   static_volume:

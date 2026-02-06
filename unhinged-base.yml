@@ -1,0 +1,20 @@
+# Base service definition for Unhinged — shared between dev and prod.
+# Not used directly. Extended by docker-compose.yml services.
+
+services:
+  unhinged-base:
+    build: .
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - PG_HOST=${PG_HOST}
+      - PG_PORT=${PG_PORT}
+      - PG_USER=${PG_USER}
+      - PG_PASS=${PG_PASS}
+      - PG_DATABASE=${PG_DATABASE}
+      - GOATCOUNTER_URL=${GOATCOUNTER_URL:-}
+    volumes:
+      - static_volume:/unhinged_lander/staticfiles
+    networks:
+      kdio_network:
+        aliases:
+          - unhinged_lander

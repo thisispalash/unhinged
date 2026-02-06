@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Pitch Deck — Unhinged{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+  <h1 class="text-3xl font-bold">Pitch Deck</h1>
+  <p class="text-foreground/70">
+    Thank you for your interest. The deck is embedded below.
+  </p>
+
+  <div class="w-full aspect-[4/3] border border-foreground/10 rounded-md overflow-hidden">
+    <iframe
+      src="{% static 'docs/deck.pdf' %}"
+      class="w-full h-full"
+      title="Unhinged Pitch Deck"
+    ></iframe>
+  </div>
+
+  <p class="text-sm text-foreground/50">
+    If the PDF doesn't load, you can
+    <a href="{% static 'docs/deck.pdf' %}" class="underline" download>
+      download it directly
+    </a>.
+  </p>
+</div>
+{% endblock %}

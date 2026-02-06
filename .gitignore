@@ -1,8 +1,16 @@
 .DS_Store
+
 *.env
+!.env.example
 
 *.sqlite3
 __pycache__/
 *.pyc
 
 staticfiles/
+
+# Tailwind standalone CLI binary (download per-platform)
+tailwindcss
+
+# Tailwind compiled output (generated from tw-in.css)
+static/css/tw.css
